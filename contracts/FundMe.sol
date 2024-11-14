@@ -42,4 +42,7 @@ contract FoundMe {
         uint256 answer = uint256(getChainlinkDataFeedLatestAnswer());
         return (ethMount * answer) / 10**8;
     }
+    function test() public view {
+        
+    }
 }

@@ -48,6 +48,13 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "test",
+				"outputs": [],
+				"stateMutability": "view",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -86,11 +93,11 @@
 			]
 		},
 		"contracts/FundMe.sol": {
-			"keccak256": "0x0d5e15352b452756d0cded7eeb7605e22a477ef3588a950f51af502b019274f2",
+			"keccak256": "0x8a415c35c16c224c5c71696445ce3b282ad117aa3c6fea0d83fef1a31ab22073",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6864bd8b8953b185928cc7d09c4607d2e236499bed9ed4f2b678f45fcb943f44",
-				"dweb:/ipfs/QmSQd2ynP2iXycZf8kdRBK1ekbWyEtJfr6gH3t7iPAUMex"
+				"bzz-raw://5e87ec07db072921201d4c7d5473c119592631d7984a7391abfd519a830d533c",
+				"dweb:/ipfs/Qmd3RppHi8H95AgZPzDmCbt4M9rkrRKCuQ5Njj39BPL1bS"
 			]
 		}
 	},
