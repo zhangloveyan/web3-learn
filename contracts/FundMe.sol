@@ -43,6 +43,6 @@ contract FoundMe {
         return (ethMount * answer) / 10**8;
     }
     function test() public view {
-        
+        uint256 a = 1;
     }
 }
