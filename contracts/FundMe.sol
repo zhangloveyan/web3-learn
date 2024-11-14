@@ -44,7 +44,7 @@ contract FoundMe {
     }
 
     function test() public pure returns (uint256) {
-        uint256 a = 1;
+        uint256 a = 11;
         uint256 b = 2;
         return a + b;
     }
