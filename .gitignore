@@ -1,6 +1,6 @@
 /contracts/artifacts/build-info/*
 
-.deploys
-.deps
+.deploys/*
+.deps/*
 
-.states
+.states/*
