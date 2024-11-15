@@ -6,7 +6,13 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_lockTime",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -38,12 +44,19 @@
 			},
 			{
 				"inputs": [],
-				"name": "getChainlinkDataFeedLatestAnswer",
+				"name": "getFund",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
 				"outputs": [
 					{
-						"internalType": "int256",
+						"internalType": "address",
 						"name": "",
-						"type": "int256"
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -51,15 +64,22 @@
 			},
 			{
 				"inputs": [],
-				"name": "test",
-				"outputs": [
+				"name": "refund",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
 					}
 				],
-				"stateMutability": "pure",
+				"name": "setOwner",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -99,11 +119,11 @@
 			]
 		},
 		"contracts/FundMe.sol": {
-			"keccak256": "0x183e267109eeba0aabc09034aee64baea7238a7f60fdf416beafe0c9993a5582",
+			"keccak256": "0x196ec86c4c6bb0ca16d9e9013018b22bb8966c1f5e817c602679e2c8ea7ea497",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://631fdbcc53d4c674a203acd1108459d6586e92c1ad1146a4859fc03a84ee3fca",
-				"dweb:/ipfs/QmPAgf41wpAiBvtYCgXoqqixJFwBPvbYVey1sR86wXwJbW"
+				"bzz-raw://89cf0606d555d9f1a6764eaac1da2a4fec62f79a38256631153f2ee5957c72fa",
+				"dweb:/ipfs/QmWkyUYt6pkrHNiiskBpCes2ZRgffsztw28omZftzCq1Z7"
 			]
 		}
 	},

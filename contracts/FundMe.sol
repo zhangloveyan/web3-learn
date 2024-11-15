@@ -3,49 +3,85 @@ pragma solidity ^0.8.20;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract FoundMe {
+    // 合约拥有者（部署人） 加 public 方便查看，但一般不加
+    address public owner;
+
+    // 每个地址的金额
     mapping(address => uint256) public funderToAmount;
 
-    // uint256 MINIMUM_VALUE = 1 * 10**18; //wei
-    uint256 MINIMUM_VALUE = 100 * 10**18; //usd
+    // 最小金额
+    uint256 constant MINIMUM_VALUE = 1 * 10**18; //wei
+    // 目标金额
+    uint256 constant TARGET_VALUE = 10 * 10**18; //wei
 
-    AggregatorV3Interface internal dataFeed;
+    // 部署时间
+    uint256 deployTime;
+    // 锁定时间
+    uint256 lockTime;
 
-    constructor() {
-        dataFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306
-        );
+    // 初始化函数
+    constructor(uint256 _lockTime) {
+        owner = msg.sender;
+        deployTime = block.timestamp;
+        lockTime = _lockTime;
     }
 
+    // 存款
     function fund() external payable {
-        require(convertEthToUsd(msg.value) >= MINIMUM_VALUE, "Send more ETH");
-        uint256 value = funderToAmount[msg.sender];
-        funderToAmount[msg.sender] = value + msg.value;
+        require(block.timestamp < deployTime + lockTime, "Activity is end");
+        require(msg.value >= MINIMUM_VALUE, "Send more ETH");
+        funderToAmount[msg.sender] = msg.value;
     }
 
-    // 预言机 链上获取链下数据 获取一些数据 比如 eth-> 本币价格
-    // 交易过成狗 提交 广播 达成共识
-    // 确定性交易 非确定性交易
-    // DON 去中心化预言机网络 多节点分布式 data feed 喂价
-    function getChainlinkDataFeedLatestAnswer() public view returns (int256) {
-        // prettier-ignore
-        (
-            /* uint80 roundID */,
-            int answer,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
-        ) = dataFeed.latestRoundData();
-        return answer;
+    // 取钱
+    function getFund() external activityNotEnd onlyOwner {
+        require(address(this).balance >= TARGET_VALUE, "Target is not reached");
+
+        // 不成功 revert 交易
+        // payable(msg.sender).transfer(address(this).balance);
+
+        // 不成功 返回 false
+        // bool success_1 = payable(msg.sender).send(address(this).balance);
+        // require(success_1, "send tx fail");
+
+        // call 调用函数、携带参数、返回参数
+        // 方式 {bool, result} = addr.call{value: value}("");
+        bool success_2;
+        (success_2, ) = payable(msg.sender).call{value: address(this).balance}(
+            ""
+        );
+        require(success_2, "call tx fail");
     }
 
-    function convertEthToUsd(uint256 ethMount) internal view returns (uint256) {
-        uint256 answer = uint256(getChainlinkDataFeedLatestAnswer());
-        return (ethMount * answer) / 10**8;
+    // 退款
+    function refund() external activityNotEnd {
+        require(address(this).balance < TARGET_VALUE, "Target is reached");
+        require(funderToAmount[msg.sender] != 0, "You didn't fund");
+
+        bool success_2;
+        (success_2, ) = payable(msg.sender).call{
+            value: funderToAmount[msg.sender]
+        }("");
+        require(success_2, "call tx fail");
+        funderToAmount[msg.sender] = 0;
     }
 
-    function test() public pure returns (uint256) {
-        uint256 a = 11;
-        uint256 b = 12;
-        return a + b;
+    // 更换合约拥有者
+    function setOwner(address newOwner) external onlyOwner {
+        owner = newOwner;
+    }
+
+    // 修改器 类似断言
+    modifier onlyOwner() {
+        require(owner == msg.sender, "Only owner can operate this function");
+        _;
+    }
+
+    modifier activityNotEnd() {
+        require(
+            block.timestamp >= deployTime + lockTime,
+            "Activity is not end"
+        );
+        _;
     }
 }
