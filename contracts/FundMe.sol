@@ -30,7 +30,7 @@ contract FoundMe {
     function fund() external payable {
         require(block.timestamp < deployTime + lockTime, "Activity is end");
         require(msg.value >= MINIMUM_VALUE, "Send more ETH");
-        funderToAmount[msg.sender] = msg.value;
+        funderToAmount[msg.sender] += msg.value;
     }
 
     // 取钱
